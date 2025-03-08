@@ -27,4 +27,20 @@ public class BookController {
         List<BookDTO> books= bookService.getAllBooks();
         return new ResponseEntity<>(books,HttpStatus.OK);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO){
+        BookDTO updatedBook = bookService.updateBook(id,bookDTO);
+        if(updatedBook != null){
+            return new ResponseEntity<>(updatedBook,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Integer id){
+        boolean deleted = bookService.deleteBook(id);
+        if (deleted){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

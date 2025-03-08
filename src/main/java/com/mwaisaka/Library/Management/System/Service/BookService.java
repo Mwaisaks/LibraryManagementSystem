@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,5 +36,33 @@ public class BookService {
                 })
                 .collect(Collectors.toList());
     }
+    public BookDTO updateBook(Integer id,BookDTO bookDTO){
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if(bookOptional.isPresent()){
+            Book book = bookOptional.get();
 
+            if(bookDTO.getTitle() != null) book.setTitle(bookDTO.getTitle());
+            if(bookDTO.getAuthor() != null) book.setAuthor(bookDTO.getAuthor());
+            if(bookDTO.getPublisher() != null) book.setPublisher(bookDTO.getPublisher());
+            if(bookDTO.getIsbn() != null) book.setIsbn(bookDTO.getIsbn());
+            if(bookDTO.getPublishedDate() != null) book.setPublishedDate(bookDTO.getPublishedDate());
+            if(bookDTO.getTotalCopies() != null) book.setTotalCopies(bookDTO.getTotalCopies());
+            if(bookDTO.getAvailableCopies() != null) book.setAvailableCopies(bookDTO.getAvailableCopies());
+
+            Book updatedBook = bookRepository.save(book);
+
+            BookDTO updatedBookDTO = new BookDTO();
+            BeanUtils.copyProperties(updatedBook,updatedBookDTO);
+            return updatedBookDTO;
+        }
+        return null;
+    }
+    public boolean deleteBook(Integer id){
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if(bookOptional.isPresent()){
+            bookRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
