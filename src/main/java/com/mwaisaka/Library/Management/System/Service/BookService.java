@@ -65,4 +65,15 @@ public class BookService {
         }
         return false;
     }
+
+    public BookDTO getBookById(int id) {
+        Book book = bookRepository.findById(id).orElse(null);
+
+        BookDTO bookDTO = new BookDTO();
+
+    }
+
+    public List<BookDTO> searchBooks(String keyword) {
+        return bookRepository.searchBooks(keyword);
+    }
 }
