@@ -13,6 +13,8 @@ public class BookDTO {
     private  String publisher;
     private String isbn;
     private Date publishedDate;
+    private Integer totalCopies;
+    private Integer availableCopies;
 
     public String getAuthor() {
         return author;
@@ -70,8 +72,6 @@ public class BookDTO {
         this.availableCopies = availableCopies;
     }
 
-    private Integer totalCopies;
-    private Integer availableCopies;
 
 }
 

@@ -1,6 +1,6 @@
 package com.mwaisaka.Library.Management.System.enums;
 
-public enum UserRoles {
+public enum UserRole {
     LIBRARIAN,
     STUDENT,
     TEACHER;

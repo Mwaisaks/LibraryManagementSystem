@@ -1,6 +1,7 @@
 package com.mwaisaka.Library.Management.System.models;
 
 
+import com.mwaisaka.Library.Management.System.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,34 @@ public class Book {
     private String title;
 
     private String author;
+
+    private String publisher;
+
+    private  String isbn;
+
+    private Date publishedDate;
+
+    private Integer totalCopies;
+
+    private Integer availableCopies;
+
+    @Enumerated(EnumType.STRING)
+    private BookStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private BookGenre genre;
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
+
+    @Enumerated //what do I put now that this calculates the amount of fine to be paid?
+    private FineType fineType;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
+
+    //Do I need to get getters and setters for these enum fields?
+    //How do I add the convenience method to let's say get display name, If it's relevant in this case ofcourse
 
     public String getTitle() {
         return title;
@@ -78,13 +107,6 @@ public class Book {
         this.availableCopies = availableCopies;
     }
 
-    private String publisher;
 
-    private  String isbn;
 
-    private Date publishedDate;
-
-    private Integer totalCopies;
-
-    private Integer availableCopies;
 }
