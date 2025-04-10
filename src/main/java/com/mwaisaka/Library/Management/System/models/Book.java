@@ -8,29 +8,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "book")
+@Table(name = "books")
 @Data
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
-
     private String title;
-
     private String author;
-
     private String publisher;
-
     private  String isbn;
-
     private Date publishedDate;
-
     private Integer totalCopies;
-
     private Integer availableCopies;
 
     @Enumerated(EnumType.STRING)
@@ -42,11 +36,8 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
-    @Enumerated //what do I put now that this calculates the amount of fine to be paid?
-    private FineType fineType;
-
-    @Enumerated(EnumType.STRING)
-    private NotificationType notificationType;
+    @OneToMany(mappedBy = "book")
+    private List<BorrowRecord> borrowRecords;
 
     //Do I need to get getters and setters for these enum fields?
     //How do I add the convenience method to let's say get display name, If it's relevant in this case ofcourse

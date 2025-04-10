@@ -1,9 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
-import com.mwaisaka.Library.Management.System.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Service.BookService;
-import com.mwaisaka.Library.Management.System.models.Book;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,25 +18,25 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<BookDTO> createBook(@Valid @RequestBody BookDTO bookDTO){
+    public ResponseEntity<BookRequest> createBook(@Valid @RequestBody BookRequest bookRequest){
 
-        BookDTO createdBook = bookService.createBook(bookDTO);
+        BookRequest createdBook = bookService.createBook(bookRequest);
 
         return  new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getAllBooks(){
+    public ResponseEntity<List<BookRequest>> getAllBooks(){
 
-        List<BookDTO> books= bookService.getAllBooks();
+        List<BookRequest> books= bookService.getAllBooks();
 
         return new ResponseEntity<>(books,HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<BookDTO> getBookById(@PathVariable int id){
+    @GetMapping("/{id}")
+    public ResponseEntity<BookRequest> getBookById(@PathVariable int id){
 
-        BookDTO book = bookService.getBookById(id);
+        BookRequest book = bookService.getBookById(id);
 
         if (book != null)
             return new ResponseEntity<>(book, HttpStatus.OK);
@@ -47,9 +45,9 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO){
+    public ResponseEntity<BookRequest> updateBook(@PathVariable Integer id, @Valid @RequestBody BookRequest bookRequest){
 
-        BookDTO updatedBook = bookService.updateBook(id,bookDTO);
+        BookRequest updatedBook = bookService.updateBook(id, bookRequest);
 
         if(updatedBook != null){
             return new ResponseEntity<>(updatedBook,HttpStatus.OK);
@@ -57,10 +55,10 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/books/search")
-    public ResponseEntity<List<BookDTO>> searchBooks(@RequestParam String keyword){
-        List<BookDTO> bookDTOS = bookService.searchBooks(keyword);
-        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<List<BookRequest>> searchBooks(@RequestParam String keyword){
+        List<BookRequest> bookRequests = bookService.searchBooks(keyword);
+        return new ResponseEntity<>(bookRequests, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
