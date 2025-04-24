@@ -1,11 +1,9 @@
 package com.mwaisaka.Library.Management.System.Service;
 
-import com.mwaisaka.Library.Management.System.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Repository.BookRepository;
 import com.mwaisaka.Library.Management.System.models.Book;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,43 +15,43 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public BookDTO createBook(BookDTO bookDTO){
+    public BookRequest createBook(BookRequest bookRequest){
         Book book = new Book();
-        BeanUtils.copyProperties(bookDTO,book);
+        BeanUtils.copyProperties(bookRequest,book);
         Book savedBook = bookRepository.save(book);
 
-        BookDTO savedBookDto = new BookDTO();
-        BeanUtils.copyProperties(savedBook,savedBookDto);
-        return savedBookDto;
+        BookRequest savedBookRequest = new BookRequest();
+        BeanUtils.copyProperties(savedBook, savedBookRequest);
+        return savedBookRequest;
     }
-    public List<BookDTO> getAllBooks(){
+    public List<BookRequest> getAllBooks(){
         List<Book> books = bookRepository.findAll();
         return books.stream()
                 .map(book -> {
-                    BookDTO bookDTO = new BookDTO();
-                    BeanUtils.copyProperties(book,bookDTO);
-                    return bookDTO;
+                    BookRequest bookRequest = new BookRequest();
+                    BeanUtils.copyProperties(book, bookRequest);
+                    return bookRequest;
                 })
                 .collect(Collectors.toList());
     }
-    public BookDTO updateBook(Integer id,BookDTO bookDTO){
+    public BookRequest updateBook(Integer id, BookRequest bookRequest){
         Optional<Book> bookOptional = bookRepository.findById(id);
         if(bookOptional.isPresent()){
             Book book = bookOptional.get();
 
-            if(bookDTO.getTitle() != null) book.setTitle(bookDTO.getTitle());
-            if(bookDTO.getAuthor() != null) book.setAuthor(bookDTO.getAuthor());
-            if(bookDTO.getPublisher() != null) book.setPublisher(bookDTO.getPublisher());
-            if(bookDTO.getIsbn() != null) book.setIsbn(bookDTO.getIsbn());
-            if(bookDTO.getPublishedDate() != null) book.setPublishedDate(bookDTO.getPublishedDate());
-            if(bookDTO.getTotalCopies() != null) book.setTotalCopies(bookDTO.getTotalCopies());
-            if(bookDTO.getAvailableCopies() != null) book.setAvailableCopies(bookDTO.getAvailableCopies());
+            if(bookRequest.getTitle() != null) book.setTitle(bookRequest.getTitle());
+            if(bookRequest.getAuthor() != null) book.setAuthor(bookRequest.getAuthor());
+            if(bookRequest.getPublisher() != null) book.setPublisher(bookRequest.getPublisher());
+            if(bookRequest.getIsbn() != null) book.setIsbn(bookRequest.getIsbn());
+            if(bookRequest.getPublishedDate() != null) book.setPublishedDate(bookRequest.getPublishedDate());
+            if(bookRequest.getTotalCopies() != null) book.setTotalCopies(bookRequest.getTotalCopies());
+            if(bookRequest.getAvailableCopies() != null) book.setAvailableCopies(bookRequest.getAvailableCopies());
 
             Book updatedBook = bookRepository.save(book);
 
-            BookDTO updatedBookDTO = new BookDTO();
-            BeanUtils.copyProperties(updatedBook,updatedBookDTO);
-            return updatedBookDTO;
+            BookRequest updatedBookRequest = new BookRequest();
+            BeanUtils.copyProperties(updatedBook, updatedBookRequest);
+            return updatedBookRequest;
         }
         return null;
     }
@@ -66,14 +64,14 @@ public class BookService {
         return false;
     }
 
-    public BookDTO getBookById(int id) {
+    public BookRequest getBookById(int id) {
         Book book = bookRepository.findById(id).orElse(null);
 
-        BookDTO bookDTO = new BookDTO();
+        BookRequest bookRequest = new BookRequest();
 
     }
 
-    public List<BookDTO> searchBooks(String keyword) {
+    public List<BookRequest> searchBooks(String keyword) {
         return bookRepository.searchBooks(keyword);
     }
 }
