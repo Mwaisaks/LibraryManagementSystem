@@ -1,6 +1,5 @@
 package com.mwaisaka.Library.Management.System.Service;
 
-import com.mwaisaka.Library.Management.System.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Repository.BookRepository;
 import com.mwaisaka.Library.Management.System.mapper.BookMapper;
 import com.mwaisaka.Library.Management.System.models.Book;
@@ -9,7 +8,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.beans.PropertyDescriptor;
@@ -26,61 +24,24 @@ public class BookService {
     //private  final ModelMapper modelMapper;
     private final BookMapper bookMapper;
 
-    public BookDTO createBook(BookDTO bookDTO){
+    public BookRequest createBook(BookRequest bookRequest){
         Book book = new Book();
-        BeanUtils.copyProperties(bookDTO,book);
+        BeanUtils.copyProperties(bookRequest,book);
         Book savedBook = bookRepository.save(book);
 
-        BookDTO savedBookDto = new BookDTO();
-        BeanUtils.copyProperties(savedBook,savedBookDto);
-        return savedBookDto;
+        BookRequest savedBookRequest = new BookRequest();
+        BeanUtils.copyProperties(savedBook, savedBookRequest);
+        return savedBookRequest;
     }
-    public List<BookDTO> getAllBooks(){
+    public List<BookRequest> getAllBooks(){
         List<Book> books = bookRepository.findAll();
         return books.stream()
                 .map(book -> {
-                    BookDTO bookDTO = new BookDTO();
-                    BeanUtils.copyProperties(book,bookDTO);
-                    return bookDTO;
+                    BookRequest bookRequest = new BookRequest();
+                    BeanUtils.copyProperties(book, bookRequest);
+                    return bookRequest;
                 })
                 .collect(Collectors.toList());
-    }
-    // MODEL MAPPERS
-
-//
-//    @Autowired
-//    public BookService(BookRepository bookRepository,ModelMapper modelMapper){
-//        this.bookRepository = bookRepository;
-//        this.modelMapper = modelMapper;
-//    }
-//    public BookDTO updateBook(Integer id,BookDTO  bookDTO){
-//        return bookRepository.findById(id)
-//                .map(existingBook -> {
-//                    modelMapper.map(bookDTO,existingBook);
-//
-//                    Book savedBook= bookRepository.save(existingBook);
-//
-//                    return modelMapper.map(savedBook,BookDTO.class);
-//                }).orElse(null);
-//    }
-
-
-    // MAP STRUCT
-    @Autowired
-    public BookService(BookRepository bookRepository, BookMapper bookMapper){
-        this.bookRepository = bookRepository;
-        this.bookMapper = bookMapper;
-    }
-
-    public BookDTO updateBook(Integer id,BookDTO bookDTO){
-        return bookRepository.findById(id)
-                .map(existingBook -> {
-                    bookMapper.updateBookFromDto(bookDTO,existingBook);
-
-                    Book savedBook = bookRepository.save(existingBook);
-
-                    return bookMapper.toDto(savedBook);
-                }).orElse(null);
     }
 
 
@@ -93,5 +54,16 @@ public class BookService {
             return true;
         }
         return false;
+    }
+
+    public BookRequest getBookById(int id) {
+        Book book = bookRepository.findById(id).orElse(null);
+
+        BookRequest bookRequest = new BookRequest();
+
+    }
+
+    public List<BookRequest> searchBooks(String keyword) {
+        return bookRepository.searchBooks(keyword);
     }
 }
