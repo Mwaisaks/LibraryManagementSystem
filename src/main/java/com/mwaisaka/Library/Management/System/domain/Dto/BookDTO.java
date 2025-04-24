@@ -1,13 +1,17 @@
-package com.mwaisaka.Library.Management.System.Dto;
+package com.mwaisaka.Library.Management.System.domain.Dto;
 
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
 public class BookDTO {
     private  Integer id;
     @Size(min = 2, max = 20, message = "Title must be between 2 and 20 characters")
