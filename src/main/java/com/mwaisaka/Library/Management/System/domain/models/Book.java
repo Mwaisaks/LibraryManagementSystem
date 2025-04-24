@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.models;
+package com.mwaisaka.Library.Management.System.domain.models;
 
 
 import jakarta.persistence.*;
@@ -12,6 +12,7 @@ import java.util.Date;
 @Table(name = "book")
 @Getter
 @Setter
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

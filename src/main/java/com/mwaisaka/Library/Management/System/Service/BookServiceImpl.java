@@ -15,13 +15,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BookService {
+public class BookServiceImpl implements BookService{
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
+    @Override
     @Transactional
-    public BookDTO createBook(BookDTO bookDTO){
+    public BookDTO addBook(BookDTO bookDTO){
         if (bookRepository.existsByTitleAndAuthor(bookDTO.getTitle(), bookDTO.getAuthor())){
             throw new ResourceAlreadyExists("Book with title " + bookDTO.getTitle() + " and author " + bookDTO.getAuthor() + " already exists.");
         }
@@ -37,19 +38,23 @@ public class BookService {
                 .map(bookMapper::toDto)
                 .toList();
     }
-    public BookDTO updateBook(Integer id,BookDTO bookDTO){
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        if(bookOptional.isPresent()){
-            Book book = bookOptional.get();
 
-            Book updatedBook = bookRepository.save(book);
-
-            BookDTO updatedBookDTO = new BookDTO();
-            BeanUtils.copyProperties(updatedBook,updatedBookDTO);
-            return updatedBookDTO;
-        }
-        return null;
+    @Override
+    public BookDTO updateBook(int id,BookDTO bookDTO){
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException("Book not found") );
+        book.setTitle(bookDTO.getTitle());
+        book.setAuthor(bookDTO.getAuthor());
+        book.setPublisher(bookDTO.getPublisher());
+        book.setIsbn(bookDTO.getIsbn());
+        book.setPublishedDate(bookDTO.getPublishedDate());
+        book.setTotalCopies(bookDTO.getTotalCopies());
+        book.setAvailableCopies(bookDTO.getAvailableCopies());
+        Book updatedBook = bookRepository.save(book);
+        return bookMapper.toDto(updatedBook);
     }
+
+    @Override
     public boolean deleteBook(int id){
         Optional<Book> bookOptional = bookRepository.findById(id);
         if(bookOptional.isPresent()){
@@ -59,6 +64,7 @@ public class BookService {
         return false;
     }
 
+    @Override
     @Transactional(readOnly = true)
     public BookDTO getBookById(int bookId) {
        if(bookId <= 0){
@@ -69,6 +75,8 @@ public class BookService {
                new BookNotFoundException("Book not found with id: " + bookId));
        return bookMapper.toDto(book);
     }
+
+    @Override
     public List<BookDTO> searchBooks(String keyword) {
         return bookRepository.searchBooks(keyword);
     }
