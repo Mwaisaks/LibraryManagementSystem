@@ -1,8 +1,10 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
-import com.mwaisaka.Library.Management.System.Service.BookService;
+import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
+import com.mwaisaka.Library.Management.System.Service.BookServiceImpl;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,31 +14,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/books")
+@RequiredArgsConstructor
 public class BookController {
 
-    @Autowired
-    private BookService bookService;
+    private final BookServiceImpl bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<BookRequest> createBook(@Valid @RequestBody BookRequest bookRequest){
+    public ResponseEntity<BookDTO> addBook(@Valid @RequestBody BookDTO bookDTO){
 
-        BookRequest createdBook = bookService.createBook(bookRequest);
+        BookDTO createdBook = bookService.addBook(bookDTO);
 
         return  new ResponseEntity<>(createdBook, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<BookRequest>> getAllBooks(){
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
 
-        List<BookRequest> books= bookService.getAllBooks();
+        List<BookDTO> books= bookService.getAllBooks();
 
         return new ResponseEntity<>(books,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BookRequest> getBookById(@PathVariable int id){
+    @GetMapping("/{bookId}")
+    //localhost:8080/api/books/1
+    public ResponseEntity<BookDTO> getBookById(@PathVariable int bookId){
 
-        BookRequest book = bookService.getBookById(id);
+        BookDTO book = bookService.getBookById(bookId);
 
         if (book != null)
             return new ResponseEntity<>(book, HttpStatus.OK);
@@ -45,9 +48,9 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookRequest> updateBook(@PathVariable Integer id, @Valid @RequestBody BookRequest bookRequest){
+    public ResponseEntity<BookDTO> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO){
 
-        BookRequest updatedBook = bookService.updateBook(id, bookRequest);
+        BookDTO updatedBook = bookService.updateBook(id,bookDTO);
 
         if(updatedBook != null){
             return new ResponseEntity<>(updatedBook,HttpStatus.OK);
@@ -55,10 +58,10 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<BookRequest>> searchBooks(@RequestParam String keyword){
-        List<BookRequest> bookRequests = bookService.searchBooks(keyword);
-        return new ResponseEntity<>(bookRequests, HttpStatus.OK);
+    @GetMapping("/books/search")
+    public ResponseEntity<List<BookDTO>> searchBooks(@RequestParam String keyword){
+        List<BookDTO> bookDTOS = bookService.searchBooks(keyword);
+        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -66,10 +69,9 @@ public class BookController {
 
         boolean deleted = bookService.deleteBook(id);
 
-        if (deleted){
+         if (deleted){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-
