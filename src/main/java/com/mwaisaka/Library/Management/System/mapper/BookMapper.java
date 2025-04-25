@@ -2,7 +2,7 @@ package com.mwaisaka.Library.Management.System.mapper;
 
 
 import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
-import com.mwaisaka.Library.Management.System.models.Book;
+import com.mwaisaka.Library.Management.System.domain.models.Book;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
