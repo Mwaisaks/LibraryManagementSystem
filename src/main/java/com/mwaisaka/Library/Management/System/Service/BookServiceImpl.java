@@ -2,7 +2,7 @@ package com.mwaisaka.Library.Management.System.Service;
 
 import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Repository.BookRepository;
-import com.mwaisaka.Library.Management.System.domain.mappers.BookMapper;
+import com.mwaisaka.Library.Management.System.mapper.BookMapper;
 import com.mwaisaka.Library.Management.System.domain.models.Book;
 import com.mwaisaka.Library.Management.System.exceptions.BookNotFoundException;
 import com.mwaisaka.Library.Management.System.exceptions.ResourceAlreadyExists;
@@ -43,13 +43,7 @@ public class BookServiceImpl implements BookService{
     public BookDTO updateBook(int id,BookDTO bookDTO){
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book not found") );
-        book.setTitle(bookDTO.getTitle());
-        book.setAuthor(bookDTO.getAuthor());
-        book.setPublisher(bookDTO.getPublisher());
-        book.setIsbn(bookDTO.getIsbn());
-        book.setPublishedDate(bookDTO.getPublishedDate());
-        book.setTotalCopies(bookDTO.getTotalCopies());
-        book.setAvailableCopies(bookDTO.getAvailableCopies());
+        bookMapper.updateBookFromDto(bookDTO, book);
         Book updatedBook = bookRepository.save(book);
         return bookMapper.toDto(updatedBook);
     }
