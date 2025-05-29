@@ -1,5 +1,6 @@
 package com.mwaisaka.Library.Management.System.models;
 
+import com.mwaisaka.Library.Management.System.domain.models.Book;
 import com.mwaisaka.Library.Management.System.enums.FineType;
 import com.mwaisaka.Library.Management.System.enums.NotificationType;
 import jakarta.persistence.*;

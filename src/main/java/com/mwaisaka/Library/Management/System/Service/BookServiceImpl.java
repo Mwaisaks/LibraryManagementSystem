@@ -72,6 +72,9 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookDTO> searchBooks(String keyword) {
-        return bookRepository.searchBooks(keyword);
+        List<Book> books = bookRepository.searchBooks(keyword);
+        return books.stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
