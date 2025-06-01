@@ -38,7 +38,7 @@ public class AdminUserInitializer implements CommandLineRunner {
 
             userRepository.save(admin);
             log.info("Admin user created successfully with email: {}", adminEmail);
-            log.info("Default password: admin123 (Please change after first login)");
+            log.info("Default password: admin123");
         } else {
             log.info("Admin user already exists");
         }
