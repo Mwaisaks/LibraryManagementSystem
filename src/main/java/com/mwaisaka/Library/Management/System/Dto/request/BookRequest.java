@@ -3,7 +3,13 @@ package com.mwaisaka.Library.Management.System.Dto.request;
 import com.mwaisaka.Library.Management.System.enums.BookGenre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Date;
+
+@Getter
+@Setter
 public class BookRequest {
 
     @NotBlank
@@ -12,13 +18,13 @@ public class BookRequest {
     private String author;
     private String publisher;
     private String isbn;
-    private String publishedDate;
+    private Date publishedDate;
 
     @PositiveOrZero
     private Integer totalCopies;
+    private Integer availableCopies;
     private BookGenre genre;
 
 }
 
-//I don't understand the request and response concept
-//How do I make sure that I don't rely heavily on AI
+
