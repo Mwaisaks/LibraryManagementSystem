@@ -1,5 +1,6 @@
-package com.mwaisaka.Library.Management.System.Service;
+package com.mwaisaka.Library.Management.System.Service.impl;
 
+import com.mwaisaka.Library.Management.System.Service.BookService;
 import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Repository.BookRepository;
 import com.mwaisaka.Library.Management.System.mapper.BookMapper;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;

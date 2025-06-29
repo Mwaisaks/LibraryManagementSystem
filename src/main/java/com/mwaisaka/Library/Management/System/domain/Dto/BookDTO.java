@@ -13,6 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class BookDTO {
+
     private  Integer id;
     @Size(min = 2, max = 20, message = "Title must be between 2 and 20 characters")
     @NotEmpty(message = "Title is required")
