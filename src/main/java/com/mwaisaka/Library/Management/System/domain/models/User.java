@@ -1,11 +1,10 @@
 package com.mwaisaka.Library.Management.System.domain.models;
 
-import com.mwaisaka.Library.Management.System.enums.UserRole;
+import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
