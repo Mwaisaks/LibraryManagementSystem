@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.util.Date;
 @Setter
 public class BookDTO {
 
-    private  Integer id;
+    private UUID id;
     @Size(min = 2, max = 20, message = "Title must be between 2 and 20 characters")
     @NotEmpty(message = "Title is required")
 

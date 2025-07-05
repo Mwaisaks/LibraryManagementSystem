@@ -20,5 +20,3 @@ public class BookRequest {
 
 }
 
-//I don't understand the request and response concept
-//How do I make sure that I don't rely heavily on AI
