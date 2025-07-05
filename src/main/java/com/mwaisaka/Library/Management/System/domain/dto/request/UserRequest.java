@@ -1,6 +1,6 @@
-package com.mwaisaka.Library.Management.System.Dto.request;
+package com.mwaisaka.Library.Management.System.domain.dto.request;
 
-import com.mwaisaka.Library.Management.System.enums.UserRole;
+import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 

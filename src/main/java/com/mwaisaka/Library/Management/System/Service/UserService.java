@@ -1,9 +1,9 @@
 package com.mwaisaka.Library.Management.System.Service;
 
 
-import com.mwaisaka.Library.Management.System.Dto.request.RegisterRequest;
-import com.mwaisaka.Library.Management.System.Dto.request.UpdateUserRequest;
-import com.mwaisaka.Library.Management.System.Dto.response.UserResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.request.RegisterRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.request.UpdateUserRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.response.UserResponse;
 import com.mwaisaka.Library.Management.System.models.User;
 import com.mwaisaka.Library.Management.System.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;

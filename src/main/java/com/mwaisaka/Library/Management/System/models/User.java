@@ -1,6 +1,6 @@
 package com.mwaisaka.Library.Management.System.models;
 
-import com.mwaisaka.Library.Management.System.enums.UserRole;
+import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

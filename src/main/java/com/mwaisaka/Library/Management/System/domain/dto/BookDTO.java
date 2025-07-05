@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.domain.Dto;
+package com.mwaisaka.Library.Management.System.domain.dto;
 
 
 import jakarta.validation.constraints.NotEmpty;

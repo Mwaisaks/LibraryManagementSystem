@@ -1,6 +1,6 @@
 package com.mwaisaka.Library.Management.System.exceptions;
 
-import com.mwaisaka.Library.Management.System.Dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

@@ -1,7 +1,7 @@
-package com.mwaisaka.Library.Management.System.Dto.response;
+package com.mwaisaka.Library.Management.System.domain.dto.response;
 
-import com.mwaisaka.Library.Management.System.enums.BookGenre;
-import com.mwaisaka.Library.Management.System.enums.BookStatus;
+import com.mwaisaka.Library.Management.System.domain.enums.BookGenre;
+import com.mwaisaka.Library.Management.System.domain.enums.BookStatus;
 
 public class BookResponse {
 

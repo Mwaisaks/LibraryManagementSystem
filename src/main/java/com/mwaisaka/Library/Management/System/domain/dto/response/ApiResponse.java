@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Dto.response;
+package com.mwaisaka.Library.Management.System.domain.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

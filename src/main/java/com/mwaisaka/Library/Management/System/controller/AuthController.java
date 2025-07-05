@@ -1,10 +1,10 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
-import com.mwaisaka.Library.Management.System.Dto.request.*;
-import com.mwaisaka.Library.Management.System.Dto.response.ApiResponse;
-import com.mwaisaka.Library.Management.System.Dto.response.LoginResponse;
-import com.mwaisaka.Library.Management.System.Dto.response.UserResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.LoginResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.UserResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.request.*;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

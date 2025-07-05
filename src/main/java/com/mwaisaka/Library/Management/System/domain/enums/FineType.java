@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.enums;
+package com.mwaisaka.Library.Management.System.domain.enums;
 
 import java.math.BigDecimal;
 

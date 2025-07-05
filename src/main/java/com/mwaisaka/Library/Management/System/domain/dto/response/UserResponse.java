@@ -1,6 +1,6 @@
-package com.mwaisaka.Library.Management.System.Dto.response;
+package com.mwaisaka.Library.Management.System.domain.dto.response;
 
-import com.mwaisaka.Library.Management.System.enums.UserRole;
+import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

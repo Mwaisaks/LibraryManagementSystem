@@ -1,9 +1,6 @@
 package com.mwaisaka.Library.Management.System.Repository;
 
-import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
 import com.mwaisaka.Library.Management.System.domain.models.Book;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

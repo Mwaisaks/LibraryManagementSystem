@@ -1,6 +1,6 @@
-package com.mwaisaka.Library.Management.System.Dto.request;
+package com.mwaisaka.Library.Management.System.domain.dto.request;
 
-import com.mwaisaka.Library.Management.System.enums.BookGenre;
+import com.mwaisaka.Library.Management.System.domain.enums.BookGenre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 

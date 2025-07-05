@@ -1,6 +1,6 @@
 package com.mwaisaka.Library.Management.System.Service;
 
-import com.mwaisaka.Library.Management.System.domain.Dto.BookDTO;
+import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 import com.mwaisaka.Library.Management.System.Repository.BookRepository;
 import com.mwaisaka.Library.Management.System.mapper.BookMapper;
 import com.mwaisaka.Library.Management.System.domain.models.Book;

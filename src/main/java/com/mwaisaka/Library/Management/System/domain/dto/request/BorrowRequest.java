@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Dto.request;
+package com.mwaisaka.Library.Management.System.domain.dto.request;
 
 import java.time.LocalDate;
 

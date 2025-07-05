@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.enums;
+package com.mwaisaka.Library.Management.System.domain.enums;
 
 public enum BookStatus {
     AVAILABLE("Available for checkout"),
