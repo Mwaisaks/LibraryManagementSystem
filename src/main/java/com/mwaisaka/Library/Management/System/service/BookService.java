@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Service;
+package com.mwaisaka.Library.Management.System.service;
 
 import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 

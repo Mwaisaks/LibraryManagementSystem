@@ -1,6 +1,6 @@
 package com.mwaisaka.Library.Management.System.security;
 
-import com.mwaisaka.Library.Management.System.Repository.UserRepository;
+import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import com.mwaisaka.Library.Management.System.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

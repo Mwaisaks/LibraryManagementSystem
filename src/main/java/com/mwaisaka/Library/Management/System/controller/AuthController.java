@@ -6,7 +6,7 @@ import com.mwaisaka.Library.Management.System.domain.dto.response.LoginResponse;
 import com.mwaisaka.Library.Management.System.domain.dto.response.UserResponse;
 import com.mwaisaka.Library.Management.System.domain.dto.request.*;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
-import com.mwaisaka.Library.Management.System.Service.UserService;
+import com.mwaisaka.Library.Management.System.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

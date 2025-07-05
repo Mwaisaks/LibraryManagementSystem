@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Config;
+package com.mwaisaka.Library.Management.System.config;
 
 import com.mwaisaka.Library.Management.System.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;

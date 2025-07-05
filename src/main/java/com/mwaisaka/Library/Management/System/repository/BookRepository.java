@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Repository;
+package com.mwaisaka.Library.Management.System.repository;
 
 import com.mwaisaka.Library.Management.System.domain.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,11 +1,11 @@
-package com.mwaisaka.Library.Management.System.Service;
+package com.mwaisaka.Library.Management.System.service;
 
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.RegisterRequest;
 import com.mwaisaka.Library.Management.System.domain.dto.request.UpdateUserRequest;
 import com.mwaisaka.Library.Management.System.domain.dto.response.UserResponse;
 import com.mwaisaka.Library.Management.System.models.User;
-import com.mwaisaka.Library.Management.System.Repository.UserRepository;
+import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

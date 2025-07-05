@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.Config;
+package com.mwaisaka.Library.Management.System.config;
 
 
 import org.modelmapper.Conditions;

@@ -2,7 +2,7 @@ package com.mwaisaka.Library.Management.System.controller;
 
 
 import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
-import com.mwaisaka.Library.Management.System.Service.BookServiceImpl;
+import com.mwaisaka.Library.Management.System.service.BookServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
