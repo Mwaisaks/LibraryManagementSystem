@@ -191,3 +191,11 @@ Visualization endpoints
 Implement full-text search
 
 Advanced filtering
+
+**Changes made**
+* injected BookService instead of BookServiceImpl
+* Created Impl package
+* converted the type of bookId from Integer to UUID
+
+**Suggestions**
+* Remove GenerationType on UserId and implemment keycloak to generate the users

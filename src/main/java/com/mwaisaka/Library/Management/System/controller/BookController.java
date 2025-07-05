@@ -1,9 +1,8 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
-import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
-//import com.mwaisaka.Library.Management.System.service.BookServiceImpl;
 import com.mwaisaka.Library.Management.System.service.BookService;
+import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookController {
 
-    //private final BookServiceImpl bookService;
     private final BookService bookService;
-
 
     @PostMapping("/add")
     public ResponseEntity<BookDTO> addBook(@Valid @RequestBody BookDTO bookDTO){

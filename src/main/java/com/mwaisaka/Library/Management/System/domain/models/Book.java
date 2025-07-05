@@ -1,10 +1,11 @@
 package com.mwaisaka.Library.Management.System.domain.models;
 
-
+import com.mwaisaka.Library.Management.System.models.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -15,13 +16,17 @@ import java.util.Date;
 @Builder
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    public UUID id;
     private String title;
     private String author;
     private String publisher;
-    private  String isbn;
+    private String isbn;
     private Date publishedDate;
     private Integer totalCopies;
     private Integer availableCopies;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "borrowed_books")
+    private User borrowedBy;
 }

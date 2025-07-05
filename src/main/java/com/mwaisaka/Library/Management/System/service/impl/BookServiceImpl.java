@@ -1,4 +1,9 @@
-package com.mwaisaka.Library.Management.System.service;
+
+
+
+package com.mwaisaka.Library.Management.System.service.impl;
+
+import com.mwaisaka.Library.Management.System.service.BookService;
 
 import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 import com.mwaisaka.Library.Management.System.repository.BookRepository;
@@ -15,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
@@ -34,7 +39,7 @@ public class BookServiceImpl implements BookService{
 
     public List<BookDTO> getAllBooks(){
         /// Todo : implement pagination
-       return bookRepository.findAll().stream()
+        return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -61,13 +66,13 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional(readOnly = true)
     public BookDTO getBookById(int bookId) {
-       if(bookId <= 0){
-           throw new IllegalArgumentException("Invalid book id");
-       }
+        if(bookId <= 0){
+            throw new IllegalArgumentException("Invalid book id");
+        }
 
-       Book book = bookRepository.findById(bookId).orElseThrow(() ->
-               new BookNotFoundException("Book not found with id: " + bookId));
-       return bookMapper.toDto(book);
+        Book book = bookRepository.findById(bookId).orElseThrow(() ->
+                new BookNotFoundException("Book not found with id: " + bookId));
+        return bookMapper.toDto(book);
     }
 
     @Override
