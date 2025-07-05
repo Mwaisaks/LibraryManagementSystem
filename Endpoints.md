@@ -1,12 +1,13 @@
 | **Endpoint**                | **Method** | **Description**                                                                       | **Access**                                            |
-| --------------------------- | ---------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+|-----------------------------| ---------- |---------------------------------------------------------------------------------------| ----------------------------------------------------- |
 | `/api/auth/register`        | POST       | Registers a new user (Student, Teacher, or Admin)                                     | Public                                                |
 | `/api/auth/login`           | POST       | Authenticates a user and returns a JWT token                                          | Public                                                |
 | `/api/auth/forgot-password` | POST       | Initiates the password reset process                                                  | Public                                                |
 | `/api/auth/reset-password`  | POST       | Resets the password after verification                                                | Public                                                |
 | `/api/users`                | GET        | Retrieves a list of all registered users                                              | Admin                                                 |
-| `/api/users/{id}`           | PUT        | Updates user profile details (e.g., name, email, password)                            | Authenticated (user themselves or Admin)              |
-| `/api/users/{id}`           | DELETE     | Deletes a user account                                                                | Admin                                                 |
+| `/api/users/{userId}`       | GET        | Retrieves a specific user by their Id                                                 | Admin                                                 |
+| `/api/users/{userId}`       | PUT        | Updates user profile details (e.g., name, email, password)                            | Authenticated (user themselves or Admin)              |
+| `/api/users/{userId}`       | DELETE     | Deletes a user account                                                                | Admin                                                 |
 | `/api/books`                | GET        | Retrieves all books or searches by filters (title, author, category)                  | Public                                                |
 | `/api/books`                | POST       | Adds a new book to the library                                                        | Admin                                                 |
 | `/api/books/{id}`           | GET        | Retrieves detailed information for a specific book                                    | Public                                                |

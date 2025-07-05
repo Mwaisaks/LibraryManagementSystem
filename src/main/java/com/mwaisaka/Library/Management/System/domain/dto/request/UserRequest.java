@@ -10,7 +10,9 @@ import lombok.Setter;
 @Setter
 public class UserRequest {
 
-    private String name;
+    private String firstName;
+
+    private String lastName;
 
     @Email
     private String email;
@@ -19,5 +21,3 @@ public class UserRequest {
     private String password;
     private UserRole role;
 }
-
-//It's interesting that I'm interacting with validation for the first time
