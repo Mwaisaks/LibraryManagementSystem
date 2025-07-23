@@ -50,6 +50,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/users").hasRole("LIBRARIAN")
+                        .requestMatchers("/api/books/add").hasRole("LIBRARIAN")
+                        .requestMatchers("/api/books/updateBook").hasRole("LIBRARIAN")
+                        .requestMatchers("/api/books/deleteBook").hasRole("LIBRARIAN")
                         .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().authenticated()
                 )
