@@ -1,4 +1,4 @@
-package com.mwaisaka.Library.Management.System.models;
+package com.mwaisaka.Library.Management.System.domain.models;
 
 import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import jakarta.persistence.*;
