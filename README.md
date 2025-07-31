@@ -196,6 +196,11 @@ Advanced filtering
 * injected BookService instead of BookServiceImpl
 * Created Impl package
 * converted the type of bookId from Integer to UUID
+* Added a new endpoint getUserById
 
 **Suggestions**
-* Remove GenerationType on UserId and implemment keycloak to generate the users
+* Remove GenerationType on UserId and implement keycloak to generate the users
+* Use a base class exception and let other exceptions extend tha base class
+* We don't need the dtos, just the Response and request classes
+
+Check the update user methods, updating the role

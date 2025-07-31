@@ -14,6 +14,7 @@ import java.util.UUID;
 @Setter
 @Builder
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     public UUID id;
