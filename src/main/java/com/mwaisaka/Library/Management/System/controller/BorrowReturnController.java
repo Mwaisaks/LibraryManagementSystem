@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BorrowReturnController {
 
-    @Autowired
-    private BorrowReturnService borrowReturnService;
+
+    private final BorrowReturnService borrowReturnService;
+
+    public BorrowReturnController(BorrowReturnService borrowReturnService) {
+        this.borrowReturnService = borrowReturnService;
+    }
 
     @PostMapping("/borrow")
     public ResponseEntity<String> borrowBook(@Valid @RequestBody BorrowRequest borrowRequest){
