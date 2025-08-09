@@ -18,11 +18,11 @@ import java.util.Optional;
 
 public class BorrowReturnServiceImpl implements BorrowReturnService {
 
-    private final BookRepository bookRepository;
+    private  BookRepository bookRepository;
 
-    private final UserRepository userRepository;
+    private  UserRepository userRepository;
 
-    private final TransactionRepository transactionRepository;
+    private  TransactionRepository transactionRepository;
 
     @Override
     public String borrowBook(BorrowRequest borrowRequest) {
@@ -70,6 +70,33 @@ public class BorrowReturnServiceImpl implements BorrowReturnService {
 
     @Override
     public String returnBook(ReturnRequest returnRequest) {
-        return "";
+         User user = userRepository.findById(returnRequest.getUserId())
+                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+         Book book = bookRepository.findById(returnRequest.getBookId())
+                 .orElseThrow(() -> new RuntimeException("Book not found"));
+
+         Transaction borrowTransaction = transactionRepository
+                 .findActiveBorrowTransaction(user,book,TransactionType.BORROW)
+                 .orElseThrow(() -> new RuntimeException("No active borrow record found for this user and book"));
+
+         borrowTransaction.setReturnDate(LocalDateTime.now());
+         transactionRepository.save(borrowTransaction);
+
+         Transaction returnTransaction = Transaction.builder()
+                 .user(user)
+                 .book(book)
+                 .transactionType(TransactionType.RETURN)
+                 .transactionDate(LocalDateTime.now())
+                 .build();
+         transactionRepository.save(returnTransaction);
+
+         book.setAvailableCopies(book.getAvailableCopies() + 1);
+
+         if(book.getBorrowedBy() != null && book.getBorrowedBy().equals(user)){
+             book.setBorrowedBy(null);
+         }
+         bookRepository.save(book);
+         return "Book returned successfully";
     }
 }
