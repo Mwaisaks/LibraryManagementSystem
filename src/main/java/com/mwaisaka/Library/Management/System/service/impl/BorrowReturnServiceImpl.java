@@ -11,18 +11,22 @@ import com.mwaisaka.Library.Management.System.repository.BookRepository;
 import com.mwaisaka.Library.Management.System.repository.TransactionRepository;
 import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import com.mwaisaka.Library.Management.System.service.BorrowReturnService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class BorrowReturnServiceImpl implements BorrowReturnService {
 
-    private  BookRepository bookRepository;
+    private final   BookRepository bookRepository;
 
-    private  UserRepository userRepository;
+    private final   UserRepository userRepository;
 
-    private  TransactionRepository transactionRepository;
+    private final   TransactionRepository transactionRepository;
 
     @Override
     public String borrowBook(BorrowRequest borrowRequest) {
