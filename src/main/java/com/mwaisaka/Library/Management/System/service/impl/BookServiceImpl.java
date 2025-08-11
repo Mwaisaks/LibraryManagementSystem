@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO updateBook(int id,BookDTO bookDTO){
+    public BookDTO updateBook(UUID id, BookDTO bookDTO){
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException("Book not found") );
         bookMapper.updateBookFromDto(bookDTO, book);
@@ -54,7 +55,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean deleteBook(int id){
+    public boolean deleteBook(UUID id){
         Optional<Book> bookOptional = bookRepository.findById(id);
         if(bookOptional.isPresent()){
             bookRepository.deleteById(id);
@@ -65,8 +66,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public BookDTO getBookById(int bookId) {
-        if(bookId <= 0){
+    public BookDTO getBookById(UUID bookId) {
+        if(bookId.equals(new UUID(0, 0))){
             throw new IllegalArgumentException("Invalid book id");
         }
 

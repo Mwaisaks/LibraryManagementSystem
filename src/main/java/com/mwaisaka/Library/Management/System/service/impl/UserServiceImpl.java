@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
@@ -62,10 +63,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponse getUserById(Long userId) {
+    public UserResponse getUserById(UUID userId) {
         log.debug("Fetching user with id: {}", userId);
 
-        if (userId == null || userId <= 0) {
+        if (userId == null || userId.equals(new UUID(0, 0))) {
             throw new IllegalArgumentException("Invalid user ID");
         }
 
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(Long id, UpdateUserRequest request) {
+    public UserResponse updateUser(UUID id, UpdateUserRequest request) {
         log.debug("Updating user with id: {}", id);
 
         validateInput(id, request);
@@ -106,10 +107,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(UUID id) {
         log.debug("Deleting user with id: {}", id);
 
-        if (id == null || id <= 0) {
+        if (id == null || id.equals(new UUID(0, 0))) {
             throw new IllegalArgumentException("Invalid user ID");
         }
 
@@ -167,8 +168,8 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    private void validateInput(Long id, UpdateUserRequest request) {
-        if (id == null || id <= 0) {
+    private void validateInput(UUID id, UpdateUserRequest request) {
+        if (id == null || id.equals(new UUID(0, 0))) {
             throw new IllegalArgumentException("Invalid user ID");
         }
         if (request == null) {

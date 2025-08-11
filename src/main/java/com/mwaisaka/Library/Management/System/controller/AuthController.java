@@ -27,6 +27,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -132,7 +133,7 @@ public class AuthController {
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN') or authentication.principal.user.id == #id")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @Valid @RequestBody UpdateUserRequest request) {
         try {
             UserResponse updatedUser = userService.updateUser(id, request);
@@ -145,7 +146,7 @@ public class AuthController {
 
     @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable UUID id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok(ApiResponse.success("User deleted successfully"));

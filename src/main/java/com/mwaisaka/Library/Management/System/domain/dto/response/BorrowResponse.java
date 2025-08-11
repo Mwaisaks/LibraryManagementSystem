@@ -2,10 +2,11 @@ package com.mwaisaka.Library.Management.System.domain.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class BorrowResponse {
 
-    private Long id;
+    private UUID id;
     private Long userId;
     private Long bookId;
     private LocalDate borrowDate;

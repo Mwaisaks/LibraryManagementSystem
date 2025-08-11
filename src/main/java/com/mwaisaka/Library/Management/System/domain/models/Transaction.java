@@ -1,9 +1,9 @@
 package com.mwaisaka.Library.Management.System.domain.models;
 
 import com.mwaisaka.Library.Management.System.domain.enums.TransactionType;
-import com.mwaisaka.Library.Management.System.models.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -31,7 +31,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
+    @CreationTimestamp
     private LocalDateTime transactionDate;
+
     private LocalDateTime dueDate;
     private LocalDateTime returnDate;
 

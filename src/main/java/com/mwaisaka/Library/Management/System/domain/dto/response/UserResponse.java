@@ -6,13 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 //@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
 
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
     private UserRole role;

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 public class BorrowRequest {
 
-    private Long userId;
+    private UUID userId;
     private UUID bookId;
     private LocalDate dueDate; //putting a default for 14 days?
 }

@@ -6,13 +6,15 @@ import com.mwaisaka.Library.Management.System.domain.enums.TransactionType;
 import com.mwaisaka.Library.Management.System.domain.enums.UserRole;
 import com.mwaisaka.Library.Management.System.domain.models.Book;
 import com.mwaisaka.Library.Management.System.domain.models.Transaction;
-import com.mwaisaka.Library.Management.System.models.User;
+import com.mwaisaka.Library.Management.System.domain.models.User;
+import com.mwaisaka.Library.Management.System.exceptions.BookNotFoundException;
+import com.mwaisaka.Library.Management.System.exceptions.TransactionNotFoundException;
+import com.mwaisaka.Library.Management.System.exceptions.user.UserNotFoundException;
 import com.mwaisaka.Library.Management.System.repository.BookRepository;
 import com.mwaisaka.Library.Management.System.repository.TransactionRepository;
 import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import com.mwaisaka.Library.Management.System.service.BorrowReturnService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,28 +25,26 @@ import java.util.Optional;
 public class BorrowReturnServiceImpl implements BorrowReturnService {
 
     private final   BookRepository bookRepository;
-
     private final   UserRepository userRepository;
-
     private final   TransactionRepository transactionRepository;
 
     @Override
     public String borrowBook(BorrowRequest borrowRequest) {
         User user = userRepository.findById(borrowRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("user not found"));
+                .orElseThrow(() -> new UserNotFoundException("user not found"));
         if (user.getRole() == UserRole.LIBRARIAN){
             throw new RuntimeException("Librarians cannot borrow books");
         }
 
         Book book = bookRepository.findById(borrowRequest.getBookId())
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+                .orElseThrow(() -> new BookNotFoundException("Book not found"));
 
         if(book.getAvailableCopies() <= 0){
-            throw new RuntimeException("Book has no available copies");
+            throw new RuntimeException("Book has no available copies");  //exception for this?
         }
 
         Optional<Transaction> existingBorrow = transactionRepository
-                .findActiveBorrowTransaction(user,book, TransactionType.BORROW);
+                .findActiveBorrowTransaction(user, book, TransactionType.BORROW);
         if(existingBorrow.isPresent()){
             throw new RuntimeException("User has already borrowed this book");
         }
@@ -69,20 +69,20 @@ public class BorrowReturnServiceImpl implements BorrowReturnService {
                 .dueDate(dueDate)
                 .build();
         transactionRepository.save(transaction);
-        return  "Book borrowed successfully.Due date: " + dueDate.toLocalDate();
+        return  "Book borrowed successfully. Due date: " + dueDate.toLocalDate();
     }
 
     @Override
     public String returnBook(ReturnRequest returnRequest) {
          User user = userRepository.findById(returnRequest.getUserId())
-                 .orElseThrow(() -> new RuntimeException("User not found"));
+                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
          Book book = bookRepository.findById(returnRequest.getBookId())
-                 .orElseThrow(() -> new RuntimeException("Book not found"));
+                 .orElseThrow(() -> new BookNotFoundException("Book not found"));
 
          Transaction borrowTransaction = transactionRepository
                  .findActiveBorrowTransaction(user,book,TransactionType.BORROW)
-                 .orElseThrow(() -> new RuntimeException("No active borrow record found for this user and book"));
+                 .orElseThrow(() -> new TransactionNotFoundException("No active borrow record found for this user and book"));
 
          borrowTransaction.setReturnDate(LocalDateTime.now());
          transactionRepository.save(borrowTransaction);

@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ReturnRequest {
 
     @NotNull
-    private Long userId;
+    private UUID userId;
 
     @NotNull
     private UUID bookId;
