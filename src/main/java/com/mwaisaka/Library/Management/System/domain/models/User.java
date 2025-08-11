@@ -25,6 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user") //Can I get a
+    @OneToMany(mappedBy = "user")
     private List<BorrowRecord> borrowRecords;
 }
