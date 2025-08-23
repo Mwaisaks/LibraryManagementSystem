@@ -3,7 +3,7 @@ package com.mwaisaka.Library.Management.System.repository;
 import com.mwaisaka.Library.Management.System.domain.enums.TransactionType;
 import com.mwaisaka.Library.Management.System.domain.models.Book;
 import com.mwaisaka.Library.Management.System.domain.models.Transaction;
-import com.mwaisaka.Library.Management.System.models.User;
+import com.mwaisaka.Library.Management.System.domain.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

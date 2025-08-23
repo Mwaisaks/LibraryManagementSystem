@@ -122,12 +122,12 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Password reset successfully"));
     }
 
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(Pageable pageable) {
-        Page<UserResponse> users = userService.getAllUsers(pageable);
-        return ResponseEntity.ok(ApiResponse.success("Users retrieved successfully", users));
-    }
+//    @GetMapping("/users")
+//    @PreAuthorize("hasRole('LIBRARIAN')")
+//    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(Pageable pageable) {
+//        Page<UserResponse> users = userService.getAllUsers(pageable);
+//        return ResponseEntity.ok(ApiResponse.success("Users retrieved successfully", users));
+//    }
 
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN') or authentication.principal.user.id == #id")

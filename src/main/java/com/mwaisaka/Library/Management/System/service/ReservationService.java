@@ -1,0 +1,17 @@
+package com.mwaisaka.Library.Management.System.service;
+
+import com.mwaisaka.Library.Management.System.domain.dto.request.ReservationRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ReservationResponse;
+import com.mwaisaka.Library.Management.System.domain.models.Book;
+
+import java.util.List;
+
+public interface ReservationService {
+
+    ReservationResponse reserveBook(ReservationRequest request);
+    List<ReservationResponse> getUserReservations(Long userId);
+    List<ReservationResponse> getAllReservations();
+    String cancelReservation(Long reservationId,Long userId);
+    void processReservationWhenBookReturned(Book book);
+    void expireReservation();
+}
