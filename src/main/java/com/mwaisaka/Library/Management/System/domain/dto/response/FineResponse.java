@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -19,9 +20,9 @@ public class FineResponse {
     private Long fineId;
     private Long userId;
     private String userName;
-    private Integer bookId;
+    private UUID bookId;
     private String bookTitle;
-    private Long transactionId;
+    private UUID transactionId;
     private BigDecimal amount;
     private BigDecimal amountPaid;
     private LocalDateTime createdDate;

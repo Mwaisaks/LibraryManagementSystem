@@ -23,7 +23,7 @@ public interface FineRepository extends JpaRepository<Fine, Long> {
 
     List<Fine> findByUserAndStatus(User user, FineStatus status);
 
-    List<Fine> findByUserAndStatusOrderByCreatedDateAsc(User user,FineStatus status);
+    List<Fine> findByUserAndStatusOrderByCreatedDateAsc(User user, FineStatus status);
 
     Optional<Fine> findByTransaction(Transaction transaction);
 
@@ -38,6 +38,4 @@ public interface FineRepository extends JpaRepository<Fine, Long> {
 
     @Query("SELECT f FROM Fine f WHERE f.user = :user AND f.status IN ('UNPAID', 'PARTIALLY_PAID')")
     List<Fine> findOutstandingFinesByUser(@Param("user") User user);
-
-
 }
