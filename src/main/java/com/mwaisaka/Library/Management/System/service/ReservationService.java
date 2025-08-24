@@ -7,11 +7,10 @@ import com.mwaisaka.Library.Management.System.domain.models.Book;
 import java.util.List;
 
 public interface ReservationService {
-
-    ReservationResponse reserveBook(ReservationRequest request);
+    ReservationResponse reserveBook(ReservationRequest reservationRequest);
     List<ReservationResponse> getUserReservations(Long userId);
     List<ReservationResponse> getAllReservations();
-    String cancelReservation(Long reservationId,Long userId);
+    String cancelReservation(Long reservationId, Long userId);
     void processReservationWhenBookReturned(Book book);
-    void expireReservation();
+    void expireReservations();
 }

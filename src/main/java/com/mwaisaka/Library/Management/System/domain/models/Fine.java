@@ -2,10 +2,18 @@ package com.mwaisaka.Library.Management.System.domain.models;
 
 import com.mwaisaka.Library.Management.System.domain.enums.FineStatus;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "fines")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Fine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -17,5 +19,5 @@ public class ReservationRequest {
     private Long userId;
 
     @NotNull(message = "Book ID is required")
-    private Integer bookId;
+    private UUID bookId;
 }

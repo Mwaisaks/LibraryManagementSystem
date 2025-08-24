@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -16,7 +17,7 @@ public class ReservationResponse {
     private Long reservationId;
     private Long userId;
     private String userName;
-    private Integer bookId;
+    private UUID bookId;
     private String bookTitle;
     private LocalDateTime reservationDate;
     private LocalDateTime expirationDate;
