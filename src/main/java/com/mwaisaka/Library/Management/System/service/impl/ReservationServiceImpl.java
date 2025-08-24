@@ -10,6 +10,7 @@ import com.mwaisaka.Library.Management.System.domain.models.Reservation;
 import com.mwaisaka.Library.Management.System.domain.models.Transaction;
 import com.mwaisaka.Library.Management.System.domain.models.User;
 import com.mwaisaka.Library.Management.System.repository.*;
+import com.mwaisaka.Library.Management.System.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ReservationServiceImpl {
+public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final TransactionRepository transactionRepository;

@@ -11,6 +11,8 @@ import com.mwaisaka.Library.Management.System.repository.BookRepository;
 import com.mwaisaka.Library.Management.System.repository.TransactionRepository;
 import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import com.mwaisaka.Library.Management.System.service.BorrowReturnService;
+import com.mwaisaka.Library.Management.System.service.FineService;
+import com.mwaisaka.Library.Management.System.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,10 @@ public class BorrowReturnServiceImpl implements BorrowReturnService {
     private final   UserRepository userRepository;
 
     private final   TransactionRepository transactionRepository;
+
+    private final ReservationService reservationService;
+
+    private final FineService fineService;
 
     @Override
     public String borrowBook(BorrowRequest borrowRequest) {
@@ -101,6 +107,10 @@ public class BorrowReturnServiceImpl implements BorrowReturnService {
              book.setBorrowedBy(null);
          }
          bookRepository.save(book);
+
+         fineService.updateFineStatusOnReturn(returnTransaction);
+         reservationService.processReservationWhenBookReturned(book);
          return "Book returned successfully";
     }
+
 }
