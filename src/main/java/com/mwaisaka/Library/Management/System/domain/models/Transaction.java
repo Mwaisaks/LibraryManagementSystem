@@ -1,7 +1,7 @@
 package com.mwaisaka.Library.Management.System.domain.models;
 
 import com.mwaisaka.Library.Management.System.domain.enums.TransactionType;
-import com.mwaisaka.Library.Management.System.models.User;
+import com.mwaisaka.Library.Management.System.domain.models.User;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -2,6 +2,7 @@ package com.mwaisaka.Library.Management.System.security;
 
 import com.mwaisaka.Library.Management.System.repository.UserRepository;
 import com.mwaisaka.Library.Management.System.domain.models.User;
+import com.sun.security.auth.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
