@@ -16,3 +16,21 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+library:
+  fine:
+    daily-rate: 1.00
+    max-fine: 50.00
+    grace-period-days: 0
+  reservation:
+    default-expiration-days: 3
+    availability-expiration-days: 2
+    max-active-reservations-per-user: 5
+  borrowing:
+    default-loan-period-days: 14
+    max-books-per-user: 5
+
+logging:
+  level:
+    com.mwaisaka.Library.Management.System: DEBUG
+    org.springframework.scheduling: DEBUG
