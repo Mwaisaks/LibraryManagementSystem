@@ -1,6 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.PaymentRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
 import com.mwaisaka.Library.Management.System.domain.dto.response.FineResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.service.FineService;
@@ -20,37 +21,38 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/fines")
 @RequiredArgsConstructor
-public class FIneController {
+public class FineController {
 
     private final FineService fineService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<?> getFines(@RequestParam(required = false) Long userId,
-                                      @RequestParam(required = false,defaultValue = "false") Boolean unpaidOnly,
-                                      Authentication authentication) {
+    public ResponseEntity<ApiResponse<List<FineResponse>>> getFines(
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false, defaultValue = "false") Boolean unpaidOnly,
+            Authentication authentication) {
         try {
-            if (hasAdminRole(authentication)){
-                List<FineResponse> fines;
-                if (userId!=null){
-                    fines = unpaidOnly ?
-                            fineService.getUnpaidFines(userId) :
-                            fineService.getUserFines(userId);
+            List<FineResponse> fines;
+            if (hasAdminRole(authentication)) {
+                if (userId != null) {
+                    fines = unpaidOnly
+                            ? fineService.getUnpaidFines(userId)
+                            : fineService.getUserFines(userId);
                 } else {
                     fines = fineService.getAllFines();
                 }
-                return ResponseEntity.ok(fines);
             } else {
                 Long currentUserId = getCurrentUserId(authentication);
-                List<FineResponse> fines = unpaidOnly ?
-                        fineService.getUnpaidFines(currentUserId) :
-                        fineService.getUserFines(currentUserId);
-                return ResponseEntity.ok(fines);
+                fines = unpaidOnly
+                        ? fineService.getUnpaidFines(currentUserId)
+                        : fineService.getUserFines(currentUserId);
             }
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(ApiResponse.success("Fines retrieved successfully", fines));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
+
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<?> getFineSummary(@RequestParam(required = false) Long userId,Authentication authentication) {
