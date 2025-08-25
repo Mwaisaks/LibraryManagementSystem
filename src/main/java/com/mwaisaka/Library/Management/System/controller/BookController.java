@@ -64,13 +64,14 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Integer id){
-
+    public ResponseEntity<ApiResponse<Void>> deleteBook(@PathVariable Integer id) {
         boolean deleted = bookService.deleteBook(id);
 
-         if (deleted){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (deleted) {
+            return ResponseEntity.ok(ApiResponse.success("Book deleted successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(ApiResponse.error("Book not found"));
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
