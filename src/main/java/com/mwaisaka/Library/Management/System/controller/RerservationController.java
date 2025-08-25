@@ -1,6 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.ReservationRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
 import com.mwaisaka.Library.Management.System.domain.dto.response.ReservationResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetailsService;
@@ -23,18 +24,21 @@ public class RerservationController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
-    public ResponseEntity<?> reserveBook(@Valid @RequestBody ReservationRequest reservationRequest,
-                                         Authentication authentication){
+    public ResponseEntity<ApiResponse<ReservationResponse>> reserveBook(
+            @Valid @RequestBody ReservationRequest reservationRequest,
+            Authentication authentication) {
         try {
             if (!hasAdminRole(authentication) &&
-                !reservationRequest.getBookId().equals(getCurrentUserId(authentication))){
+                    !reservationRequest.getBookId().equals(getCurrentUserId(authentication))) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("You can only reserve books for yourself");
+                        .body(ApiResponse.error("You can only reserve books for yourself"));
             }
+
             ReservationResponse response = reservationService.reserveBook(reservationRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(ApiResponse.success("Book reserved successfully", response));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
 
