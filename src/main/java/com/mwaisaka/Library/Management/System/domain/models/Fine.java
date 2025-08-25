@@ -68,11 +68,4 @@ public class Fine {
     @Column(name = "notes", length = 500)
     private String notes;
 
-    @Table(indexes = {
-            @Index(name = "idx_fine_user", columnList = "user_id"),
-            @Index(name = "idx_fine_status", columnList = "status"),
-            @Index(name = "idx_fine_transaction", columnList = "transaction_id"),
-            @Index(name = "idx_fine_created_date", columnList = "created_date")
-    })
-    public static class FineIndexes {}
 }

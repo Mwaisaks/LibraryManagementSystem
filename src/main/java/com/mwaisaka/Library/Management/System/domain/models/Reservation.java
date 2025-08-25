@@ -48,10 +48,5 @@ public class Reservation {
     @Column(name = "notification_sent", nullable = false)
     private Boolean notificationSent = false;
 
-    @Table(indexes = {
-            @Index(name = "idx_reservation_user_book", columnList = "user_id, book_id"),
-            @Index(name = "idx_reservation_status", columnList = "status"),
-            @Index(name = "idx_reservation_date", columnList = "reservation_date")
-    })
-    public static class ReservationIndexes {}
+
 }
