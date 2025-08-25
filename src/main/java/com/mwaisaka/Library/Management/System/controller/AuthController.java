@@ -103,6 +103,11 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Logout the current user and Invalidate session")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "Logged out successfully",
+            content = @Content(schema=@Schema(implementation = ApiResult.class))),
+    })
     @PostMapping("/auth/logout")
     public ResponseEntity<ApiResult<String>> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
