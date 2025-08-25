@@ -44,23 +44,24 @@ public class RerservationController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<List<ReservationResponse>> getReservations(
+    public ResponseEntity<ApiResponse<List<ReservationResponse>>> getReservations(
             @RequestParam(required = false) Long userId,
-            Authentication authentication
-    ){
+            Authentication authentication) {
         try {
-            if (hasAdminRole(authentication)){
-                if (userId != null){
-                    return ResponseEntity.ok(reservationService.getUserReservations(userId));
+            List<ReservationResponse> reservations;
+            if (hasAdminRole(authentication)) {
+                if (userId != null) {
+                    reservations = reservationService.getUserReservations(userId);
                 } else {
-                    return ResponseEntity.ok(reservationService.getAllReservations());
+                    reservations = reservationService.getAllReservations();
                 }
-            } else{
+            } else {
                 Long currentUserId = getCurrentUserId(authentication);
-                return ResponseEntity.ok(reservationService.getUserReservations(currentUserId));
+                reservations = reservationService.getUserReservations(currentUserId);
             }
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok(ApiResponse.success("Reservations retrieved successfully", reservations));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
 
