@@ -61,6 +61,15 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Login a user and start a session")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected server error",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping("/auth/login")
     public ResponseEntity<ApiResult<LoginResponse>> login(
             @Valid @RequestBody LoginRequest request,
