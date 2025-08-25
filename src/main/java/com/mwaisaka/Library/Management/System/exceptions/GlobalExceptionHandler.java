@@ -1,7 +1,7 @@
 package com.mwaisaka.Library.Management.System.exceptions;
 
 import com.mwaisaka.Library.Management.System.domain.dto.ErrorResponse;
-import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.exceptions.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationExceptions(
+    public ResponseEntity<ApiResult<Map<String, String>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -73,24 +73,24 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error("Validation failed"));
+                .body(ApiResult.error("Validation failed"));
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiResponse<String>> handleAuthenticationException(AuthenticationException ex) {
+    public ResponseEntity<ApiResult<String>> handleAuthenticationException(AuthenticationException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ApiResponse.error("Authentication failed: " + ex.getMessage()));
+                .body(ApiResult.error("Authentication failed: " + ex.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ApiResponse<String>> handleAccessDeniedException(AccessDeniedException ex) {
+    public ResponseEntity<ApiResult<String>> handleAccessDeniedException(AccessDeniedException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(ApiResponse.error("Access denied: " + ex.getMessage()));
+                .body(ApiResult.error("Access denied: " + ex.getMessage()));
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse<String>> handleRuntimeException(RuntimeException ex) {
+    public ResponseEntity<ApiResult<String>> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.badRequest()
-                .body(ApiResponse.error(ex.getMessage()));
+                .body(ApiResult.error(ex.getMessage()));
     }
 }
