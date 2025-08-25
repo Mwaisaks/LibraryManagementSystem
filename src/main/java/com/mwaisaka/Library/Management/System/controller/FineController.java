@@ -55,11 +55,12 @@ public class FineController {
 
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<?> getFineSummary(@RequestParam(required = false) Long userId,Authentication authentication) {
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getFineSummary(
+            @RequestParam(required = false) Long userId,
+            Authentication authentication) {
         try {
             Long targetUserId;
-
-            if (hasAdminRole(authentication) && userId!=null){
+            if (hasAdminRole(authentication) && userId != null) {
                 targetUserId = userId;
             } else {
                 targetUserId = getCurrentUserId(authentication);
@@ -73,9 +74,9 @@ public class FineController {
             summary.put("unpaidFinesCount", unpaidFines.size());
             summary.put("unpaidFines", unpaidFines);
 
-            return ResponseEntity.ok(summary);
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(ApiResponse.success("Fine summary retrieved successfully", summary));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
 
