@@ -28,11 +28,9 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getAllBooks(){
-
-        List<BookDTO> books= bookService.getAllBooks();
-
-        return new ResponseEntity<>(books,HttpStatus.OK);
+    public ResponseEntity<ApiResponse<List<BookDTO>>> getAllBooks() {
+        List<BookDTO> books = bookService.getAllBooks();
+        return ResponseEntity.ok(ApiResponse.success("Books found", books));
     }
 
     @GetMapping("/{bookId}")
