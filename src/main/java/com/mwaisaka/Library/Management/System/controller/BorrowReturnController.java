@@ -2,7 +2,7 @@ package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.BorrowRequest;
 import com.mwaisaka.Library.Management.System.domain.dto.request.ReturnRequest;
-import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.service.BorrowReturnService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +23,22 @@ public class BorrowReturnController {
     }
 
     @PostMapping("/borrow")
-    public ResponseEntity<ApiResponse<String>> borrowBook(@Valid @RequestBody BorrowRequest borrowRequest) {
+    public ResponseEntity<ApiResult<String>> borrowBook(@Valid @RequestBody BorrowRequest borrowRequest) {
         try{
             String result = borrowReturnService.borrowBook(borrowRequest);
-            return ResponseEntity.ok(ApiResponse.success("Book borrow successfully", result));
+            return ResponseEntity.ok(ApiResult.success("Book borrow successfully", result));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
     @PostMapping("/return")
-    public ResponseEntity<ApiResponse<String>> returnBook(@Valid @RequestBody ReturnRequest borrowRequest) {
+    public ResponseEntity<ApiResult<String>> returnBook(@Valid @RequestBody ReturnRequest borrowRequest) {
         try{
             String result = borrowReturnService.returnBook(borrowRequest);
-            return ResponseEntity.ok(ApiResponse.success("Return book successfully", result));
+            return ResponseEntity.ok(ApiResult.success("Return book successfully", result));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 }

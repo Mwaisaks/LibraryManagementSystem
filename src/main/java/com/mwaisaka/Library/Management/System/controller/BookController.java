@@ -1,7 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
-import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.service.BookService;
 import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 import jakarta.validation.Valid;
@@ -20,58 +20,58 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse<BookDTO>> addBook(@Valid @RequestBody BookDTO bookDTO) {
+    public ResponseEntity<ApiResult<BookDTO>> addBook(@Valid @RequestBody BookDTO bookDTO) {
         BookDTO createdBook =  bookService.addBook(bookDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(ApiResponse.success("Book created successfully", createdBook));
+                .body(ApiResult.success("Book created successfully", createdBook));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BookDTO>>> getAllBooks() {
+    public ResponseEntity<ApiResult<List<BookDTO>>> getAllBooks() {
         List<BookDTO> books = bookService.getAllBooks();
-        return ResponseEntity.ok(ApiResponse.success("Books found", books));
+        return ResponseEntity.ok(ApiResult.success("Books found", books));
     }
 
    @GetMapping("/{bookId}")
-   public ResponseEntity<ApiResponse<BookDTO>> getBokById(@PathVariable int bookId) {
+   public ResponseEntity<ApiResult<BookDTO>> getBokById(@PathVariable int bookId) {
         BookDTO book = bookService.getBookById(bookId);
 
         if(book != null) {
-            return ResponseEntity.ok(ApiResponse.success("Book found", book));
+            return ResponseEntity.ok(ApiResult.success("Book found", book));
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(ApiResponse.error("Book not found"));
+                    .body(ApiResult.error("Book not found"));
         }
    }
 
    @PutMapping("/{id}")
-   public ResponseEntity<ApiResponse<BookDTO>> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO) {
+   public ResponseEntity<ApiResult<BookDTO>> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO) {
         BookDTO updateBook = bookService.updateBook(id, bookDTO);
 
         if (updateBook != null) {
-            return ResponseEntity.ok(ApiResponse.success("Book updated successfully", updateBook));
+            return ResponseEntity.ok(ApiResult.success("Book updated successfully", updateBook));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(ApiResponse.error("Book not found"));
+                    .body(ApiResult.error("Book not found"));
         }
    }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<BookDTO>>> searchBooks(@RequestParam String keyword) {
+    public ResponseEntity<ApiResult<List<BookDTO>>> searchBooks(@RequestParam String keyword) {
         List<BookDTO> books = bookService.searchBooks(keyword);
-        return ResponseEntity.ok(ApiResponse.success("Search results", books));
+        return ResponseEntity.ok(ApiResult.success("Search results", books));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteBook(@PathVariable Integer id) {
+    public ResponseEntity<ApiResult<Void>> deleteBook(@PathVariable Integer id) {
         boolean deleted = bookService.deleteBook(id);
 
         if (deleted) {
-            return ResponseEntity.ok(ApiResponse.success("Book deleted successfully"));
+            return ResponseEntity.ok(ApiResult.success("Book deleted successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(ApiResponse.error("Book not found"));
+                    .body(ApiResult.error("Book not found"));
         }
     }
 }

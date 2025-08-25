@@ -1,10 +1,9 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.ReservationRequest;
-import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.domain.dto.response.ReservationResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
-import com.mwaisaka.Library.Management.System.security.CustomUserDetailsService;
 import com.mwaisaka.Library.Management.System.service.ReservationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,27 +23,27 @@ public class RerservationController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
-    public ResponseEntity<ApiResponse<ReservationResponse>> reserveBook(
+    public ResponseEntity<ApiResult<ReservationResponse>> reserveBook(
             @Valid @RequestBody ReservationRequest reservationRequest,
             Authentication authentication) {
         try {
             if (!hasAdminRole(authentication) &&
                     !reservationRequest.getBookId().equals(getCurrentUserId(authentication))) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ApiResponse.error("You can only reserve books for yourself"));
+                        .body(ApiResult.error("You can only reserve books for yourself"));
             }
 
             ReservationResponse response = reservationService.reserveBook(reservationRequest);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ApiResponse.success("Book reserved successfully", response));
+                    .body(ApiResult.success("Book reserved successfully", response));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<List<ReservationResponse>>> getReservations(
+    public ResponseEntity<ApiResult<List<ReservationResponse>>> getReservations(
             @RequestParam(required = false) Long userId,
             Authentication authentication) {
         try {
@@ -59,23 +58,23 @@ public class RerservationController {
                 Long currentUserId = getCurrentUserId(authentication);
                 reservations = reservationService.getUserReservations(currentUserId);
             }
-            return ResponseEntity.ok(ApiResponse.success("Reservations retrieved successfully", reservations));
+            return ResponseEntity.ok(ApiResult.success("Reservations retrieved successfully", reservations));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
     @DeleteMapping("/{reservationId}")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<String>> cancelReservation(
+    public ResponseEntity<ApiResult<String>> cancelReservation(
             @PathVariable Long reservationId,
             Authentication authentication) {
         try {
             Long currentUserId = getCurrentUserId(authentication);
             String result = reservationService.cancelReservation(reservationId, currentUserId);
-            return ResponseEntity.ok(ApiResponse.success(result));
+            return ResponseEntity.ok(ApiResult.success(result));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 

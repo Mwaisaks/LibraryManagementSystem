@@ -1,7 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.PaymentRequest;
-import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.domain.dto.response.FineResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.service.FineService;
@@ -27,7 +27,7 @@ public class FineController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<List<FineResponse>>> getFines(
+    public ResponseEntity<ApiResult<List<FineResponse>>> getFines(
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false, defaultValue = "false") Boolean unpaidOnly,
             Authentication authentication) {
@@ -47,15 +47,15 @@ public class FineController {
                         ? fineService.getUnpaidFines(currentUserId)
                         : fineService.getUserFines(currentUserId);
             }
-            return ResponseEntity.ok(ApiResponse.success("Fines retrieved successfully", fines));
+            return ResponseEntity.ok(ApiResult.success("Fines retrieved successfully", fines));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getFineSummary(
+    public ResponseEntity<ApiResult<Map<String, Object>>> getFineSummary(
             @RequestParam(required = false) Long userId,
             Authentication authentication) {
         try {
@@ -74,40 +74,40 @@ public class FineController {
             summary.put("unpaidFinesCount", unpaidFines.size());
             summary.put("unpaidFines", unpaidFines);
 
-            return ResponseEntity.ok(ApiResponse.success("Fine summary retrieved successfully", summary));
+            return ResponseEntity.ok(ApiResult.success("Fine summary retrieved successfully", summary));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
 
     @PostMapping("/payment")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<String>> processPayment(
+    public ResponseEntity<ApiResult<String>> processPayment(
             @Valid @RequestBody PaymentRequest paymentRequest,
             Authentication authentication) {
         try {
             if (!hasAdminRole(authentication) &&
                     !paymentRequest.getUserId().equals(getCurrentUserId(authentication))) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(ApiResponse.error("You can only pay your own fines"));
+                        .body(ApiResult.error("You can only pay your own fines"));
             }
             String result = fineService.processPayment(paymentRequest);
-            return ResponseEntity.ok(ApiResponse.success(result));
+            return ResponseEntity.ok(ApiResult.success(result));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+            return ResponseEntity.badRequest().body(ApiResult.error(e.getMessage()));
         }
     }
 
     @PostMapping("/generate")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<ApiResponse<String>> generateFines() {
+    public ResponseEntity<ApiResult<String>> generateFines() {
         try {
             fineService.generateFinesForOverdueBooks();
-            return ResponseEntity.ok(ApiResponse.success("Fines generated successfully for overdue books"));
+            return ResponseEntity.ok(ApiResult.success("Fines generated successfully for overdue books"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
-                    .body(ApiResponse.error("Error generating fines: " + e.getMessage()));
+                    .body(ApiResult.error("Error generating fines: " + e.getMessage()));
         }
     }
 
