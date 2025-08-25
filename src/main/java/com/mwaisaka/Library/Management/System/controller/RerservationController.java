@@ -5,6 +5,12 @@ import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.domain.dto.response.ReservationResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.service.ReservationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,10 +23,27 @@ import java.util.List;
 @RestController
 @RequestMapping("api/reservations")
 @RequiredArgsConstructor
+@Tag(
+        name = "Reservations",
+        description = "Endpoints for managing reservations"
+)
 public class RerservationController {
 
     private final ReservationService reservationService;
 
+    @Operation(
+            summary = "Reserve a book",
+            description = "Allows a student or teacher to reserve a book. " +
+                    "Users can only reserve books for themselves."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Book reserved successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - user tried to reserve for another user",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping
     @PreAuthorize("hasAnyRole('STUDENT','TEACHER')")
     public ResponseEntity<ApiResult<ReservationResponse>> reserveBook(
@@ -41,6 +64,18 @@ public class RerservationController {
         }
     }
 
+    @Operation(
+            summary = "Get reservations",
+            description = "Retrieve reservations. " +
+                    "Admins can see reservations for all users or a specific user. " +
+                    "Students/Teachers can only view their own reservations."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservations retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<ApiResult<List<ReservationResponse>>> getReservations(
@@ -64,6 +99,16 @@ public class RerservationController {
         }
     }
 
+    @Operation(
+            summary = "Cancel a reservation",
+            description = "Allows a user (student/teacher/admin) to cancel a reservation by its ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservation cancelled successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request - invalid reservation ID",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @DeleteMapping("/{reservationId}")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<ApiResult<String>> cancelReservation(

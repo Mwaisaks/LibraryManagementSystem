@@ -5,6 +5,12 @@ import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.domain.dto.response.FineResponse;
 import com.mwaisaka.Library.Management.System.security.CustomUserDetails;
 import com.mwaisaka.Library.Management.System.service.FineService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +27,25 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/fines")
 @RequiredArgsConstructor
+@Tag(
+        name = "Fines",
+        description = "Endpoints for managing fines"
+)
 public class FineController {
 
     private final FineService fineService;
 
+    @Operation(
+            summary = "Get fines",
+            description = "Retrieve fines for the current user or for a specified user (admins only). " +
+                    "Supports filtering unpaid fines."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fines retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @GetMapping
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<ApiResult<List<FineResponse>>> getFines(
@@ -53,6 +74,17 @@ public class FineController {
         }
     }
 
+    @Operation(
+            summary = "Get fine summary",
+            description = "Retrieve a summary of unpaid fines including total unpaid amount, count of unpaid fines, and details. " +
+                    "Admins can view summaries for any user; others can only view their own."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fine summary retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<ApiResult<Map<String, Object>>> getFineSummary(
@@ -81,6 +113,19 @@ public class FineController {
     }
 
 
+    @Operation(
+            summary = "Process fine payment",
+            description = "Allows users to pay their fines. Admins can pay fines on behalf of other users. " +
+                    "Non-admins can only pay their own fines."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Payment processed successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid payment request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden (trying to pay another user's fine without admin role)",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping("/payment")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
     public ResponseEntity<ApiResult<String>> processPayment(
@@ -99,6 +144,16 @@ public class FineController {
         }
     }
 
+    @Operation(
+            summary = "Generate fines",
+            description = "Generate fines for all overdue books. Restricted to librarians only."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fines generated successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error while generating fines",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping("/generate")
     @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<ApiResult<String>> generateFines() {
