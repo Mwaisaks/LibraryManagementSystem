@@ -33,14 +33,10 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success("User retrieved successfully", user));
     }
 
-    @PutMapping(path = "/{userId}")
-    public ResponseEntity<UserResponse> updateUser(
-            @PathVariable Long userId,
-            @Valid @RequestBody UpdateUserRequest userRequest
-            ){
-
-        UserResponse updatedUser = userService.updateUser(userId, userRequest);
-        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    @PutMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long userId, @Valid @RequestBody UpdateUserRequest updateUserRequest) {
+        UserResponse updatedUser = userService.updateUser(userId, updateUserRequest);
+        return ResponseEntity.ok(ApiResponse.success("User updated successfully", updatedUser));
     }
 
     @DeleteMapping(path = "/{userId}")
