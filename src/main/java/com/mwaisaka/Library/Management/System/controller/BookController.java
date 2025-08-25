@@ -45,16 +45,17 @@ public class BookController {
         }
    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO){
+   @PutMapping("/{id}")
+   public ResponseEntity<ApiResponse<BookDTO>> updateBook(@PathVariable Integer id,@Valid @RequestBody BookDTO bookDTO) {
+        BookDTO updateBook = bookService.updateBook(id, bookDTO);
 
-        BookDTO updatedBook = bookService.updateBook(id,bookDTO);
-
-        if(updatedBook != null){
-            return new ResponseEntity<>(updatedBook,HttpStatus.OK);
+        if (updateBook != null) {
+            return ResponseEntity.ok(ApiResponse.success("Book updated successfully", updateBook));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Book not found"));
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+   }
 
     @GetMapping("/books/search")
     public ResponseEntity<List<BookDTO>> searchBooks(@RequestParam String keyword){
