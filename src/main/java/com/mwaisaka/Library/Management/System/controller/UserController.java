@@ -1,6 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 import com.mwaisaka.Library.Management.System.domain.dto.request.UpdateUserRequest;
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
 import com.mwaisaka.Library.Management.System.domain.dto.response.UserResponse;
 import com.mwaisaka.Library.Management.System.service.UserService;
 import jakarta.validation.Valid;
@@ -19,11 +20,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<Page<UserResponse>> getUsers(Pageable pageable){
-
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsers(Pageable pageable) {
         Page<UserResponse> users = userService.getAllUsers(pageable);
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return ResponseEntity.ok(
+                ApiResponse.success("Users retrieved successfully", users)
+        );
     }
 
     @GetMapping(path = "/{userId}")

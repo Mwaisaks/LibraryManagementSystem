@@ -35,8 +35,8 @@ public class BorrowReturnController {
     @PostMapping("/return")
     public ResponseEntity<ApiResponse<String>> returnBook(@Valid @RequestBody ReturnRequest borrowRequest) {
         try{
-            String reslt = borrowReturnService.returnBook(borrowRequest);
-            return ResponseEntity.ok(ApiResponse.success("Return book successfully", reslt));
+            String result = borrowReturnService.returnBook(borrowRequest);
+            return ResponseEntity.ok(ApiResponse.success("Return book successfully", result));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
