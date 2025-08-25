@@ -25,7 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
-    private final FineRepository fineRepository;
+    //private final FineRepository fineRepository;
     private final BookRepository bookRepository;
 
     public ReservationResponse reserveBook(ReservationRequest reservationRequest) {
@@ -35,6 +35,7 @@ public class ReservationServiceImpl implements ReservationService {
         if(user.getRole() == UserRole.LIBRARIAN) {
             throw new RuntimeException("Librarians cannot reserve books");
         }
+
         Book book = bookRepository.findById(reservationRequest.getBookId())
 
                 .orElseThrow(() -> new RuntimeException("Book not found"));

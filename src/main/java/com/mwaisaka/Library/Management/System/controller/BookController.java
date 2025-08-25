@@ -1,6 +1,7 @@
 package com.mwaisaka.Library.Management.System.controller;
 
 
+import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResponse;
 import com.mwaisaka.Library.Management.System.service.BookService;
 import com.mwaisaka.Library.Management.System.domain.dto.BookDTO;
 import jakarta.validation.Valid;
@@ -19,11 +20,11 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<BookDTO> addBook(@Valid @RequestBody BookDTO bookDTO){
-
-        BookDTO createdBook = bookService.addBook(bookDTO);
-
-        return  new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<BookDTO>> addBook(@Valid @RequestBody BookDTO bookDTO) {
+        BookDTO createdBook =  bookService.addBook(bookDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success("Book created successfully", createdBook));
     }
 
     @GetMapping

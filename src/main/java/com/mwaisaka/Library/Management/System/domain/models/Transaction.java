@@ -34,6 +34,4 @@ public class Transaction {
     private LocalDateTime transactionDate;
     private LocalDateTime dueDate;
     private LocalDateTime returnDate;
-
-
 }
