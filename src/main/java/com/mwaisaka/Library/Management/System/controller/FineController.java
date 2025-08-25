@@ -83,18 +83,19 @@ public class FineController {
 
     @PostMapping("/payment")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<?> processPayment(@Valid @RequestBody PaymentRequest paymentRequest,
-                                            Authentication authentication){
-        try{
+    public ResponseEntity<ApiResponse<String>> processPayment(
+            @Valid @RequestBody PaymentRequest paymentRequest,
+            Authentication authentication) {
+        try {
             if (!hasAdminRole(authentication) &&
-            !paymentRequest.getUserId().equals(getCurrentUserId(authentication))){
+                    !paymentRequest.getUserId().equals(getCurrentUserId(authentication))) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("You can only pay your own fines");
+                        .body(ApiResponse.error("You can only pay your own fines"));
             }
             String result = fineService.processPayment(paymentRequest);
-            return ResponseEntity.ok(result);
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(ApiResponse.success(result));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
 
