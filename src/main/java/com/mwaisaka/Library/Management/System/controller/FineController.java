@@ -101,14 +101,16 @@ public class FineController {
 
     @PostMapping("/generate")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public ResponseEntity<?> generateFines(){
-        try{
+    public ResponseEntity<ApiResponse<String>> generateFines() {
+        try {
             fineService.generateFinesForOverdueBooks();
-            return ResponseEntity.ok().body("Fines generated successfully for overdue books");
-        } catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error generating fines: " + e.getMessage());
+            return ResponseEntity.ok(ApiResponse.success("Fines generated successfully for overdue books"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(ApiResponse.error("Error generating fines: " + e.getMessage()));
         }
     }
+
     private boolean hasAdminRole(Authentication authentication){
         return authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
