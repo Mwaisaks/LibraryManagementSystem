@@ -57,10 +57,10 @@ public class BookController {
         }
    }
 
-    @GetMapping("/books/search")
-    public ResponseEntity<List<BookDTO>> searchBooks(@RequestParam String keyword){
-        List<BookDTO> bookDTOS = bookService.searchBooks(keyword);
-        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<BookDTO>>> searchBooks(@RequestParam String keyword) {
+        List<BookDTO> books = bookService.searchBooks(keyword);
+        return ResponseEntity.ok(ApiResponse.success("Search results", books));
     }
 
     @DeleteMapping("/{id}")
