@@ -67,13 +67,15 @@ public class RerservationController {
 
     @DeleteMapping("/{reservationId}")
     @PreAuthorize("hasAnyRole('STUDENT', 'TEACHER', 'ADMIN')")
-    public ResponseEntity<?> cancelReservation(@PathVariable Long reservationId,Authentication authentication){
+    public ResponseEntity<ApiResponse<String>> cancelReservation(
+            @PathVariable Long reservationId,
+            Authentication authentication) {
         try {
             Long currentUserId = getCurrentUserId(authentication);
-            String result = reservationService.cancelReservation(reservationId,currentUserId);
-            return ResponseEntity.ok().body(result);
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            String result = reservationService.cancelReservation(reservationId, currentUserId);
+            return ResponseEntity.ok(ApiResponse.success(result));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
 
