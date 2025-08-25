@@ -52,20 +52,14 @@ public class AuthController {
             @Valid @RequestBody LoginRequest request,
             HttpServletRequest httpRequest) {
         try {
-            // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-
-            // Set the authentication in the security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // Create session and store security context
             HttpSession session = httpRequest.getSession(true);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                     SecurityContextHolder.getContext());
 
-            // Get user details
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             UserResponse userResponse = new UserResponse(
                     userDetails.getUser().getId(),
@@ -121,14 +115,6 @@ public class AuthController {
     public ResponseEntity<ApiResponse<String>> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         return ResponseEntity.ok(ApiResponse.success("Password reset successfully"));
     }
-
-//    @GetMapping("/users")
-//    @PreAuthorize("hasRole('LIBRARIAN')")
-//    public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(Pageable pageable) {
-//        Page<UserResponse> users = userService.getAllUsers(pageable);
-//        return ResponseEntity.ok(ApiResponse.success("Users retrieved successfully", users));
-//    }
-
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN') or authentication.principal.user.id == #id")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
