@@ -118,6 +118,13 @@ public class AuthController {
         return ResponseEntity.ok(ApiResult.success("Logged out successfully"));
     }
 
+    @Operation(summary = "Get details of the currently authenticated user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "User retrieved successfully",
+            content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "401",description = "No authenticated user",
+            content = @Content(schema = @Schema(implementation =  ApiResult.class)))
+    })
     @GetMapping("/auth/me")
     public ResponseEntity<ApiResult<UserResponse>> getCurrentUser(
             @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -134,15 +141,35 @@ public class AuthController {
                 .body(ApiResult.error("No authenticated user"));
     }
 
+    @Operation(summary = "Send Password reset instructions to user email")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "password reset instructions sent",
+            content = @Content(schema=@Schema(implementation = ApiResult.class))),
+    })
     @PostMapping("/auth/forgot-password")
     public ResponseEntity<ApiResult<String>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         return ResponseEntity.ok(ApiResult.success("Password reset instructions sent to your email"));
     }
 
+    @Operation(summary = "Reset password")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "password reset successfully",
+            content = @Content(schema=@Schema(implementation = ApiResult.class))),
+    })
     @PostMapping("/auth/reset-password")
     public ResponseEntity<ApiResult<String>> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
         return ResponseEntity.ok(ApiResult.success("Password reset successfully"));
     }
+
+    @Operation(summary = "Update user details")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User updated successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid update request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - insufficient privileges",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN') or authentication.principal.user.id == #id")
     public ResponseEntity<ApiResult<UserResponse>> updateUser(
@@ -157,6 +184,15 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Delete a user (only librarians can perform this)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User deleted successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden - only librarians allowed",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<ApiResult<String>> deleteUser(@PathVariable Long id) {

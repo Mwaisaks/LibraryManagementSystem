@@ -4,6 +4,11 @@ import com.mwaisaka.Library.Management.System.domain.dto.request.BorrowRequest;
 import com.mwaisaka.Library.Management.System.domain.dto.request.ReturnRequest;
 import com.mwaisaka.Library.Management.System.domain.dto.response.ApiResult;
 import com.mwaisaka.Library.Management.System.service.BorrowReturnService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +27,16 @@ public class BorrowReturnController {
         this.borrowReturnService = borrowReturnService;
     }
 
+    @Operation(
+            summary = "Borrow a book",
+            description = "Allows a user to borrow a book by providing member ID and book ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Book borrowed successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request or book not available",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping("/borrow")
     public ResponseEntity<ApiResult<String>> borrowBook(@Valid @RequestBody BorrowRequest borrowRequest) {
         try{
@@ -32,6 +47,16 @@ public class BorrowReturnController {
         }
     }
 
+    @Operation(
+            summary = "Return a book",
+            description = "Allows a user to return a borrowed book by providing member ID and book ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Book returned successfully",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request or book not found",
+                    content = @Content(schema = @Schema(implementation = ApiResult.class)))
+    })
     @PostMapping("/return")
     public ResponseEntity<ApiResult<String>> returnBook(@Valid @RequestBody ReturnRequest borrowRequest) {
         try{
