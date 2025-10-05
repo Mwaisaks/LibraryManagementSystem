@@ -18,7 +18,6 @@ public class BookDTO {
     private UUID id;
     @Size(min = 2, max = 20, message = "Title must be between 2 and 20 characters")
     @NotEmpty(message = "Title is required")
-
     private  String title;
     private String author;
     private String email;
